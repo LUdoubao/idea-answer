@@ -1,0 +1,19 @@
+<idea-plugin>
+    <id>com.github.codex.answer-idea</id>
+    <name>Answer System</name>
+    <version>0.1.0</version>
+    <vendor>Codex</vendor>
+    <idea-version since-build="233" until-build="263.*"/>
+    <description><![CDATA[
+        在 IDEA 工具窗口中内嵌 Answer System 答题站（https://gin.hk.cn/answer/dashboard），
+        登录会话保存在 IDE 托管的 JCEF 浏览器配置中。
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Answer"
+                    anchor="right"
+                    factoryClass="com.github.codex.answer.AnswerToolWindowFactory"
+                    icon="/icons/answer.svg"
+                    canCloseContents="false"/>
+    </extensions>
+</idea-plugin>

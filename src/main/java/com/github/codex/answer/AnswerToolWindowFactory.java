@@ -26,7 +26,8 @@ public final class AnswerToolWindowFactory implements ToolWindowFactory, DumbAwa
      */
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        AnswerBrowserPanel panel = new AnswerBrowserPanel();
+        // 传入 project：工具窗口按项目读写 answer.displayMode 记忆，同一 IDE 的不同项目互不影响。
+        AnswerBrowserPanel panel = new AnswerBrowserPanel(project);
 
         // 内容 disposer 跟随工具窗口与项目生命周期：关闭项目或卸载插件时释放 Chromium 原生资源。
         Content content = ContentFactory.getInstance().createContent(panel.getComponent(), "", false);

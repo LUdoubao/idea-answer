@@ -25,6 +25,13 @@ public final class AnswerSite {
     /** 工具窗口打开时加载的首页，即答题站控制台；登录与后续路由由页面自身处理。 */
     public static final URI HOME = URI.create("https://" + HOST + PATH_PREFIX + "/dashboard");
 
+    /**
+     * 移动端首页；站点把移动端视图挂在 {@code /answer/m} 路由下，由同一份前端 bundle 渲染。
+     *
+     * <p>工具窗口默认加载该地址，切换按钮在 {@code /answer} 与 {@code /answer/m} 之间互换。</p>
+     */
+    public static final URI MOBILE_HOME = URI.create("https://" + HOST + PATH_PREFIX + "/m/dashboard");
+
     private AnswerSite() {
     }
 }

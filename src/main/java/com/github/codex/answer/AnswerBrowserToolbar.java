@@ -1,9 +1,11 @@
 package com.github.codex.answer;
 
 import com.intellij.icons.AllIcons;
+import com.intellij.openapi.util.IconLoader;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
@@ -11,13 +13,19 @@ import java.awt.FlowLayout;
 /**
  * 浏览器上方的操作条，提供刷新与 Web/移动端切换两个按钮。
  *
- * <p>工具条只负责按钮与文案，不接触 JCEF、地址换算或项目记忆：两个动作由
- * {@link AnswerBrowserPanel} 通过构造函数注入，模式文案由 {@link #setMode(AnswerDisplayMode)} 同步。
+ * <p>切换按钮以文案与图标共同表示点击后的目标模式；工具条只负责按钮外观，不接触 JCEF、地址换算或项目记忆：
+ * 两个动作由 {@link AnswerBrowserPanel} 通过构造函数注入，模式状态由 {@link #setMode(AnswerDisplayMode)} 同步。
  * 这样在 JCEF 不可用的降级分支里不会创建工具条，也不存在无浏览器的按钮。</p>
  */
 public final class AnswerBrowserToolbar extends JPanel {
 
-    /** 切换按钮；文案随当前模式在“切换到 Web”和“切换到移动端”之间变化。 */
+    /** 目标为 Web 时的切换图标；深色主题由同目录 {@code web_dark.svg} 自动替换。 */
+    private static final Icon WEB_ICON = IconLoader.getIcon("/icons/web.svg", AnswerBrowserToolbar.class);
+
+    /** 目标为移动端时的切换图标；深色主题由同目录 {@code mobile_dark.svg} 自动替换。 */
+    private static final Icon MOBILE_ICON = IconLoader.getIcon("/icons/mobile.svg", AnswerBrowserToolbar.class);
+
+    /** 切换按钮；文案与图标随当前模式在“切换到 Web”和“切换到移动端”之间变化。 */
     private final JButton toggleButton;
 
     /**
@@ -43,11 +51,14 @@ public final class AnswerBrowserToolbar extends JPanel {
     }
 
     /**
-     * 同步切换按钮文案到当前模式。
+     * 同步切换按钮的文案与图标到当前模式。
      *
      * @param mode 当前展示模式；移动端下按钮指向 Web 页面，桌面端下按钮指向移动端页面
      */
     public void setMode(@NotNull AnswerDisplayMode mode) {
-        toggleButton.setText(mode == AnswerDisplayMode.MOBILE ? "切换到 Web" : "切换到移动端");
+        boolean mobile = mode == AnswerDisplayMode.MOBILE;
+        toggleButton.setText(mobile ? "切换到 Web" : "切换到移动端");
+        // 图标与文案保持同一语义：显示点击后的目标模式，而不是当前模式。
+        toggleButton.setIcon(mobile ? WEB_ICON : MOBILE_ICON);
     }
 }
